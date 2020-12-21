@@ -5,90 +5,56 @@ import Expense from './Expense';
 import Income from './Income';
 
 class BudgetBottom extends Component {
-
-
-
     constructor(props) {
         super(props)
         this.state = {
             description: "",
             value: 0,
             type: '',
-            operator: '',
+            operator: '+',
             data: []
         }
         this.expense = Expense
         this.income = Income
-
     }
-
-
 
     updateOperator = (e) => {
         const newOperator = e.target.value;
         this.setState({
-            ...this.state,
             operator: newOperator
         });
-        // if (this.state.operator == '+') {
-        //     this.setState({
-        //         ...this.state,
-        //         type: 'inc'
-        //     })
-        // } else if (this.state.operator == "-") {
-        //     this.setState({
-        //         ...this.state,
-        //         type: 'exp'
-        //     })
-        // }
-        // console.log(this.state.type)
     };
 
     updateDes = (e) => {
         const newDescription = e.target.value;
         this.setState({
-            ...this.state,
             description: newDescription
         })
-
-        // console.log(this.state.description)
     }
 
     updateValue = (e) => {
         const newValue = e.target.value;
         this.setState({
-            ...this.state,
             value: newValue
         })
-        // console.log(this.state.value);
     }
 
     clickFunction = () => {
-        if (this.state.operator == "+") {
-            const dataInc = new Income(this.state.des = this.state.description,
-                this.state.val = this.state.value);
+        if (this.state.operator === "+") {
+            const dataInc = new Income(this.state.description, this.state.value);
+            
             this.setState({
                 ...this.state,
                 data: [...this.state.data, dataInc]
             })
-        } else if (this.state.operator == "-") {
-            const dataExp = new Expense(this.state.des = this.state.description,
-                this.state.val = this.state.value);
+        } else if (this.state.operator === "-") {
+            const dataExp = new Expense(this.state.description, this.state.value);
+
             this.setState({
                 ...this.state,
                 data: [...this.state.data, dataExp]
             })
-
-            // myArray: [...this.state.myArray, 'new value'] 
         }
-        // const test = new Expense(this.state.des = this.state.description, this.state.val = this.state.value);
-        console.log(this.state.data);
-        // console.log(test);
-        // console.log(this.state.type);
-        // console.log(this.state.operator);
-        // console.log(this.state.value);
-        // console.log(this.state.description);
-
     }
 
 
@@ -120,24 +86,20 @@ class BudgetBottom extends Component {
 
                         <div className="income__list">
                             {
-
-                                data.map(Income => {
+                                data.filter(movement => movement instanceof Income).map(income => {
                                     return (
-                                        <div class="item clearfix" id="income-0">
-                                            <div class="item__description">{Income.des}</div>
-                                            <div class="right clearfix">
-                                                <div class="item__value">{Income.val}</div>
-                                                <div class="item__delete">
-                                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
+                                        <div key={income.des + Math.random()} className="item clearfix" id="income-0">
+                                            <div className="item__description">{income.des}</div>
+                                            <div className="right clearfix">
+                                                <div className="item__value">{income.val}</div>
+                                                <div className="item__delete">
+                                                    <button className="item__delete--btn"><i className="ion-ios-close-outline"></i></button>
                                                 </div>
                                             </div>
                                         </div>
                                     )
-
                                 })
-
                             }
-
                         </div>
                     </div>
 
@@ -148,43 +110,19 @@ class BudgetBottom extends Component {
 
                         <div className="expenses__list">
                             {
-                                data.map(Expense => {
-                                    <div class="item clearfix" id="expense-0">
-                                        <div class="item__description">{Expense.des}</div>
-                                        <div class="right clearfix">
-                                            <div class="item__value">{Expense.val}</div>
-                                            <div class="item__percentage"></div>
-                                            <div class="item__delete">
-                                                <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
+                                data.filter(movement => movement instanceof Expense).map(expense => {
+                                    return (<div key={expense.des + Math.random()} className="item clearfix" id="expense-0">
+                                        <div className="item__description">{expense.des}</div>
+                                        <div className="right clearfix">
+                                            <div className="item__value">{expense.val}</div>
+                                            <div className="item__percentage"></div>
+                                            <div className="item__delete">
+                                                <button className="item__delete--btn"><i className="ion-ios-close-outline"></i></button>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>)
                                 })
                             }
-                            {/* <!--
-                        <div class="item clearfix" id="expense-0">
-                            <div class="item__description">Apartment rent</div>
-                            <div class="right clearfix">
-                                <div class="item__value">- 900.00</div>
-                                <div class="item__percentage">21%</div>
-                                <div class="item__delete">
-                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item clearfix" id="expense-1">
-                            <div class="item__description">Grocery shopping</div>
-                            <div class="right clearfix">
-                                <div class="item__value">- 435.28</div>
-                                <div class="item__percentage">10%</div>
-                                <div class="item__delete">
-                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        -->
-                         */}
                         </div>
                     </div>
                 </div>
